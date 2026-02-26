@@ -1,54 +1,54 @@
-# React + TypeScript + Vite
+# GameFlow
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Projeto base em Next.js para evolucao de um app de jogos.
 
-Currently, two official plugins are available:
+## Requisitos
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Node.js 20+
+- npm 10+
 
-## Expanding the ESLint configuration
+## Configuracao inicial
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+1. Instale dependencias:
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+2. Crie seu arquivo local de ambiente:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+```bash
+cp .env.example .env.local
 ```
+
+3. Rode o projeto em desenvolvimento:
+
+```bash
+npm run dev
+```
+
+App disponivel em `http://localhost:3000`.
+
+## Scripts
+
+- `npm run dev`: ambiente de desenvolvimento
+- `npm run build`: build de producao
+- `npm run start`: executa build em producao
+- `npm run lint`: analise de lint
+- `npm run lint:fix`: corrige problemas de lint automaticamente
+- `npm run typecheck`: validacao de tipos TypeScript
+- `npm run check`: executa lint + typecheck
+
+## Estrutura atual
+
+- `src/app`: rotas e UI (App Router)
+- `src/app/home/page.tsx`: tela inicial atual
+- `src/app/page.tsx`: redireciona `/` para `/home`
+- `public`: arquivos estaticos
+
+## Proximos passos sugeridos
+
+- Definir dominio funcional (features de jogos)
+- Estruturar camadas (`components`, `lib`, `services`)
+- Adicionar testes (unitarios e integracao)
+- Configurar CI para rodar `npm run check`

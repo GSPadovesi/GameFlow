@@ -1,0 +1,29 @@
+$themes: (
+  dark: (
+    bg: #0b1020,
+    surface: #0f1730,
+    card: #121c38,
+    text: #eaf0ff,
+    muted: #aab6e6,
+    accent: #5b8cff,
+    border: rgba(255, 255, 255, 0.08)
+  ),
+  light: (
+    bg: #f6f7fb,
+    surface: #ffffff,
+    card: #ffffff,
+    text: #0b1020,
+    muted: #4b5563,
+    accent: #2f6bff,
+    border: rgba(15, 23, 48, 0.12)
+  ),
+  neon: (
+    bg: #0a0f1f,
+    surface: #111633,
+    card: #151b3d,
+    text: #ffffff,
+    muted: #8893ff,
+    accent: #00f0ff,
+    border: rgba(0, 240, 255, 0.25)
+  )
+);
