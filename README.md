@@ -1,6 +1,6 @@
 # GameFlow
 
-Projeto base em Next.js para evolucao de um app de jogos.
+Projeto base em Next.js para evolucao de um app de listagem organizada de jogos.
 
 ## Requisitos
 
