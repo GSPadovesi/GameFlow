@@ -1,0 +1,13 @@
+@use "themes" as *;
+
+@mixin generate-theme($theme-name) {
+  $theme: map-get($themes, $theme-name);
+
+  @if $theme == null {
+    @error "Tema '#{$theme-name}' não encontrado";
+  }
+
+  @each $key, $value in $theme {
+    --#{$key}: #{$value};
+  }
+}

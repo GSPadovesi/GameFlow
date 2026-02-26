@@ -1,0 +1,28 @@
+@use "./mixin" as mixin;
+
+:root[data-theme="dark"] {
+  @include mixin.generate-theme(dark);
+}
+
+:root[data-theme="light"] {
+  @include mixin.generate-theme(light);
+}
+
+:root[data-theme="neon"] {
+  @include mixin.generate-theme(neon);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, sans-serif;
+}

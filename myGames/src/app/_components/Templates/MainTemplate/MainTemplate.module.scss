@@ -1,0 +1,16 @@
+.main {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  & * {
+    scrollbar-color: var(--bg) transparent;
+  }
+
+  @media print {
+    & * {
+      print-color-adjust: exact;
+      -webkit-print-color-adjust: exact;
+    }
+  }
+}
