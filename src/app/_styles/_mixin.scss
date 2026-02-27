@@ -1,10 +1,11 @@
+@use "sass:map";
 @use "themes" as *;
 
 @mixin generate-theme($theme-name) {
-  $theme: map-get($themes, $theme-name);
+  $theme: map.get($themes, $theme-name);
 
   @if $theme == null {
-    @error "Tema '#{$theme-name}' não encontrado";
+    @error "Tema '#{$theme-name}' nao encontrado";
   }
 
   @each $key, $value in $theme {

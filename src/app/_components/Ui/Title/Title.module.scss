@@ -1,0 +1,80 @@
+.title {
+  width: 100%;
+  color: var(--fontColor, var(--text));
+  text-align: var(--textAlign, left);
+  font-family: var(--fontFamily, inherit);
+  font-weight: var(--fontWeight, normal);
+};
+
+.sizeSm {
+  font-size: 12px;
+
+  @media(min-width: 768px) {
+    font-size: 14px;
+  }
+
+  @media(min-width: 1024px) {
+    font-size: 16px;
+  }
+}
+
+.sizeMd {
+  font-size: 16px;
+
+  @media(min-width: 768px) {
+    font-size: 18px;
+  }
+
+  @media(min-width: 1024px) {
+    font-size: 20px;
+  }
+}
+
+.sizeLg {
+  font-size: 20px;
+
+  @media(min-width: 768px) {
+    font-size: 22px;
+  }
+
+  @media(min-width: 1024px) {
+    font-size: 24px;
+  }
+}
+
+.sizeXl {
+  font-size: 24px;
+
+  @media(min-width: 768px) {
+    font-size: 26px;
+  }
+
+  @media(min-width: 1024px) {
+    font-size: 28px;
+  }
+}
+
+.size2Xl {
+  font-size: 28px;
+
+  @media(min-width: 768px) {
+    font-size: 30px;
+  }
+
+  @media(min-width: 1024px) {
+    font-size: 32px;
+  }
+}
+
+.size3Xl {
+  font-size: 32px;
+
+  @media(min-width: 768px) {
+    font-size: 34px;
+  }
+
+  @media(min-width: 1024px) {
+    font-size: 36px;
+  }
+}
+

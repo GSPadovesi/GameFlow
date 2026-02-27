@@ -1,0 +1,55 @@
+.headerHamburguer{
+  min-width: 28px;
+  min-height: 24px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+
+  &:before, &:after{
+    content: '';
+    border-bottom: 4px solid #ffffff;
+    border-radius: 2px;
+    color: #4F4F4F;
+    transition: transform 0.4s ease;
+  }
+
+  &:before {
+    transform: rotate(0) translate(0, 0);
+  }
+
+  &:after {
+    transform: rotate(0) translate(0, 0);
+  }
+
+  
+  @media(min-width: 1024px) {
+    display: none;
+  } 
+
+}
+
+.headerHamburguerOpen {
+  &:before {
+    transform: rotate(-45deg) translate(-7px, 7px);
+  }
+
+  &:after {
+    transform: rotate(45deg) translate(-6px, -7px);
+  }
+}
+
+.hamburguer {
+  position: relative;
+  width: 32px;
+  transition: background-color 0.4s ease margin-right 0.4s ease;
+  border-bottom: 4px solid #ffffff;
+  border-radius: 2px;
+}
+
+.hamburguerOpen {
+  border-color: transparent !important;
+}
+
+
