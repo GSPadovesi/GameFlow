@@ -14,9 +14,9 @@ export function MainTemplate({
 
   return (
     <main className={styles.main}>
-      <Header isOpen={isOpen} setIsOpen={setIsOpen} />
+      <Sidebar isOpen={isOpen} />
       <div className={styles.content}>
-        <Sidebar isOpen={isOpen} />
+        <Header isOpen={isOpen} setIsOpen={setIsOpen} />
         {children}
       </div>
     </main>
