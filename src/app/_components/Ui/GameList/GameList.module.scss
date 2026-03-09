@@ -1,0 +1,13 @@
+.gameList{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.listGrid{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  width: 100%;
+  align-items: stretch;
+}

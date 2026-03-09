@@ -64,8 +64,8 @@ export function CatalogPage() {
             rating: game.rating,
             ratingTop: game.rating_top,
             platforms: game.platforms.map(({ platform }) => platform),
-            genres: game.genres,
-          } satisfies GameItem,
+            genres: game.genres
+          }
         }));
 
         setItems(mappedItems);
