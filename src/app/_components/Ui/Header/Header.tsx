@@ -11,14 +11,6 @@ export const Header: React.FC<HeaderProps> = ({ isOpen, setIsOpen }) => {
   return (
     <header className={styles.header}>
       <HeaderHamburguer isOpen={isOpen} onClick={() => setIsOpen(!isOpen)} />
-      <Field
-        type='input'
-        id='search'
-        name='search'
-        placeholder='Search...'
-        className={styles.searchField}
-        iconLeft={<Search size={16} strokeWidth={2} />}
-      />
     </header >
   )
 }
