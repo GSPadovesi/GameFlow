@@ -35,9 +35,7 @@ export default function RootLayout({
     <html lang="pt-BR" data-theme="dark">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <MainTemplate>
-          <section>
-            {children}
-          </section>
+          {children}
         </MainTemplate>
       </body>
     </html>

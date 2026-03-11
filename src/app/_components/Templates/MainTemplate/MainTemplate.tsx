@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { Sidebar } from "../../Ui";
-import styles from "./MainTemplate.module.scss";
 import { Header } from "../../Ui/Header";
+import styles from "./MainTemplate.module.scss";
 
 export function MainTemplate({
   children
@@ -17,7 +17,9 @@ export function MainTemplate({
       <Sidebar isOpen={isOpen} />
       <div className={styles.content}>
         <Header isOpen={isOpen} setIsOpen={setIsOpen} />
-        {children}
+        <section className={styles.section}>
+          {children}
+        </section>
       </div>
     </main>
   );
