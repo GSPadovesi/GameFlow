@@ -5,6 +5,7 @@ import type { GameCardProps } from './GameCard.types';
 import { Title } from '../Title';
 import { Paragraph } from '../Paragraph';
 import { plataformsMap } from './GameCard.constants';
+import { Plus } from 'lucide-react';
 import styles from './GameCard.module.scss';
 import clsx from 'clsx';
 
