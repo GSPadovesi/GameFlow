@@ -1,7 +1,7 @@
-import type { GameListItem } from '../GameList/GameList.types';
+import type { UserGameItem } from '@/app/_types/user-game.types';
 
 export type GameCardProps = {
-  item: GameListItem;
+  item: UserGameItem;
   className?: string;
-  onClick?: (item: GameListItem) => void;
+  onClick?: (item: UserGameItem) => void;
 };
