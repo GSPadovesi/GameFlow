@@ -1,0 +1,85 @@
+.paragraph {
+  width: 100%;
+  color: var(--fontColor, var(--text));
+  text-align: var(--textAlign, left);
+  font-family: var(--fontFamily, inherit);
+  font-weight: var(--fontWeight, 400);
+  line-height: var(--lineHeight, 1.6);
+  font-style: var(--fontStyle, normal);
+}
+
+.left {
+  text-align: left;
+}
+
+.center {
+  text-align: center;
+}
+
+.right {
+  text-align: right;
+}
+
+.justify {
+  text-align: justify;
+}
+
+.sizeSm {
+  font-size: var(--fontSize, 12px);
+
+  @media (min-width: 768px) {
+    font-size: var(--fontSize, 14px);
+  }
+
+  @media (min-width: 1024px) {
+    font-size: var(--fontSize, 16px);
+  }
+}
+
+.sizeMd {
+  font-size: var(--fontSize, 16px);
+
+  @media (min-width: 768px) {
+    font-size: var(--fontSize, 18px);
+  }
+
+  @media (min-width: 1024px) {
+    font-size: var(--fontSize, 20px);
+  }
+}
+
+.sizeLg {
+  font-size: var(--fontSize, 20px);
+
+  @media (min-width: 768px) {
+    font-size: var(--fontSize, 22px);
+  }
+
+  @media (min-width: 1024px) {
+    font-size: var(--fontSize, 24px);
+  }
+}
+
+.sizeXl {
+  font-size: var(--fontSize, 24px);
+
+  @media (min-width: 768px) {
+    font-size: var(--fontSize, 26px);
+  }
+
+  @media (min-width: 1024px) {
+    font-size: var(--fontSize, 28px);
+  }
+}
+
+.size2xl {
+  font-size: var(--fontSize, 28px);
+
+  @media (min-width: 768px) {
+    font-size: var(--fontSize, 30px);
+  }
+
+  @media (min-width: 1024px) {
+    font-size: var(--fontSize, 32px);
+  }
+}
