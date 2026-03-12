@@ -1,49 +1,14 @@
-export type GameStatus = 'wishlist' | 'playing' | 'completed' | 'dropped';
-
-export type GamePlatform = {
-  id: number;
-  name: string;
-  slug: string;
-};
-
-export type GameGenre = {
-  id: number;
-  name: string;
-  slug: string;
-};
-
-export type GameItem = {
-  id: number;
-  slug: string;
-  name: string;
-  released: string | null;
-  backgroundImage: string | null;
-  rating: number | null;
-  ratingTop: number | null;
-  platforms: GamePlatform[];
-  genres?: GameGenre[];
-};
-
-export type GameUserState = {
-  status: GameStatus | null;
-  favorite: boolean;
-};
-
-export type GameListItem = {
-  game: GameItem;
-  userState?: GameUserState | null;
-};
+import type { GameStatus, UserGameItem } from '@/app/_types/user-game.types';
 
 export type GameListState = {
-  loading?: boolean;
-  emptyMessage?: string;
-  errorMessage?: string | null;
+  loading: boolean;
+  error: boolean | null;
 };
 
 export type GameListActions = {
-  onGameClick?: (item: GameListItem) => void;
-  onStatusChange?: (item: GameListItem, status: GameStatus) => void;
-  onFavoriteToggle?: (item: GameListItem) => void;
+  onGameClick?: (item: UserGameItem) => void;
+  onStatusChange?: (item: UserGameItem, status: GameStatus) => void;
+  onFavoriteToggle?: (item: UserGameItem) => void;
 };
 
 export type GameListOrdering =
@@ -52,7 +17,8 @@ export type GameListOrdering =
   | 'released'
   | '-released'
   | 'rating'
-  | '-rating';
+  | '-rating'
+  ;
 
 export type GameListFilters = {
   search: string;
@@ -62,16 +28,13 @@ export type GameListFilters = {
 
 export type GameListFilterProps = {
   value: GameListFilters;
-  onChange?: (filters: GameListFilters) => void;
-  onReset?: () => void;
+  onChange: (filters: GameListFilters) => void;
 };
 
 export type GameListPagination = {
   currentPage: number;
-  totalItems?: number;
-  hasNextPage?: boolean;
-  hasPreviousPage?: boolean;
-  onPageChange?: (page: number) => void;
+  totalPages: number;
+  onPageChange: (page: number) => void;
 };
 
 export type GameListOptions = {
@@ -84,11 +47,11 @@ export type GameListOptions = {
 };
 
 export type GameListProps = {
-  items: GameListItem[];
+  items: UserGameItem[];
   className?: string;
   state?: GameListState;
   actions?: GameListActions;
-  filters?: GameListFilterProps;
-  pagination?: GameListPagination;
+  filters: GameListFilterProps;
+  pagination: GameListPagination;
   options?: GameListOptions;
 };
