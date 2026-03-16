@@ -11,13 +11,15 @@ export async function getGames(req: NextRequest) {
     const search = req.nextUrl.searchParams.get('search');
     const platforms = req.nextUrl.searchParams.get('platforms');
     const genres = req.nextUrl.searchParams.get('genres');
+    const developers = req.nextUrl.searchParams.get('developers');
     
     const params = new URLSearchParams({ 
       key: RAWGKEY, 
       page: String(page),
       ...(search && { search }),
       ...(platforms && { platforms }),
-      ...(genres && { genres }) 
+      ...(genres && { genres }),
+      ...(developers && { developers })
     });
 
 

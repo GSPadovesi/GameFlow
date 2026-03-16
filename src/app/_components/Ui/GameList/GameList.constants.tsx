@@ -1,4 +1,4 @@
-import { GameListPlataform, GameListGenre } from "./GameList.types";
+import { GameListPlataform, GameListGenre, GameDeveloper } from "./GameList.types";
 
 export const platformOptions: { label: string; value: GameListPlataform }[] = [
   { label: 'PS5', value: 'playstation5' },
@@ -34,4 +34,17 @@ export const genreOptions: { label: string, value: GameListGenre }[] = [
   { label: 'Corrida', value: 'racing' },
   { label: 'Esportes', value: 'sports' },
   { label: 'Luta', value: 'fighting' }
-]
+];
+
+export const developerOptions: { label: string; value: GameDeveloper }[] = [
+  { label: 'Naughty Dog', value: 'naughty-dog' },
+  { label: 'CD Projekt Red', value: 'cd-projekt-red' },
+  { label: 'Rockstar Games', value: 'rockstar-games' },
+  { label: 'Ubisoft', value: 'ubisoft' },
+  { label: 'Electronic Arts', value: 'electronic-arts' },
+  { label: 'FromSoftware', value: 'fromsoftware' },
+  { label: 'Capcom', value: 'capcom' },
+  { label: 'Square Enix', value: 'square-enix' },
+  { label: 'Bethesda', value: 'bethesda' },
+  { label: 'Blizzard', value: 'blizzard-entertainment' }
+];

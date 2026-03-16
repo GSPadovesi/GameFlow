@@ -4,7 +4,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import type { GameListFilters } from '@/app/_components/Ui/GameList/GameList.types';
 import type { UserGameItem } from '@/app/_types/user-game.types';
 import { Search } from 'lucide-react';
-import { getPlataformId, getGenreId } from '../../../../utils';
+import { getPlataformId, getGenreId, getDeveloperId } from '../../../../utils';
 
 export type CatalogProviderValue = {
   items: UserGameItem[];
@@ -64,6 +64,7 @@ export function CatalogProvider({ children }: CatalogProviderProps) {
     search: '',
     platform: null,
     genre: null,
+    developer: null
   });
 
   useEffect(() => {
@@ -79,17 +80,10 @@ export function CatalogProvider({ children }: CatalogProviderProps) {
           page: String(page),
           ...(filters.search && { search: filters.search }),
           ...(filters.platform && { platforms: String(getPlataformId[filters.platform]) }),
-          ...(filters.genre) && { genres: String(getGenreId[filters.genre]) }
+          ...(filters.genre) && { genres: String(getGenreId[filters.genre]) },
+          ...(filters.developer) && { developers: String(getDeveloperId[filters.developer]) }
         });
 
-        // if (filters.search) {
-        //   params.append('search', filters.search);
-        // }
-
-        if (filters.platform) {
-
-        }
-        // const response = await fetch(`/api/games?page=${page}${filters.search && `&search=${encodeURIComponent(filters.search)}`}`, {
         const response = await fetch(`/api/games?${params.toString()}`, {
           method: 'GET',
           headers: {

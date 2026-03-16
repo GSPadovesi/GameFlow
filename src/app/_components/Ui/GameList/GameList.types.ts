@@ -47,10 +47,23 @@ export type GameListPlataform =
   | "ps-vita"
   ;
 
+  export type GameDeveloper =
+  | 'naughty-dog'
+  | 'cd-projekt-red'
+  | 'rockstar-games'
+  | 'ubisoft'
+  | 'electronic-arts'
+  | 'fromsoftware'
+  | 'capcom'
+  | 'square-enix'
+  | 'bethesda'
+  | 'blizzard-entertainment';
+
 export type GameListFilters = {
   search: string;
   platform: GameListPlataform | null;
   genre: GameListGenre | null;
+  developer: GameDeveloper | null;
 };
 
 export type GameListFilterProps = {

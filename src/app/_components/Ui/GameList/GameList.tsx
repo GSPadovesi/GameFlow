@@ -5,10 +5,12 @@ import { Skeleton } from "../Skeleton";
 import { ArrowBigLeft, ArrowBigRight, Search } from "lucide-react";
 import { getPaginationSpan } from "../../../../../utils";
 import { refresh } from "next/cache";
-import { platformOptions, genreOptions } from "./GameList.constants";
-import type { GameListProps, GameListPlataform, GameListGenre } from "./GameList.types";
+import { platformOptions, genreOptions, developerOptions } from "./GameList.constants";
+import type { GameListProps, GameListPlataform, GameListGenre, GameDeveloper } from "./GameList.types";
 import clsx from "clsx";
 import styles from './GameList.module.scss'
+import { Title } from "../Title";
+import { Button } from "../Button";
 
 export const GameList: React.FC<GameListProps> = ({ items, state, filters, pagination }) => {
   const [search, setSearch] = useState<string>(filters.value.search);
@@ -44,6 +46,13 @@ export const GameList: React.FC<GameListProps> = ({ items, state, filters, pagin
       ...filters.value,
       genre: e.target.value ? e.target.value as GameListGenre : null
     })
+  }, [filters]);
+
+  const onDeveloperChange = useCallback((e: ChangeEvent<HTMLSelectElement>) => {
+    filters.onChange({
+      ...filters.value,
+      developer: e.target.value ? e.target.value as GameDeveloper : null
+    })
   }, [filters])
 
   const handleBack = useCallback(() => {
@@ -59,15 +68,6 @@ export const GameList: React.FC<GameListProps> = ({ items, state, filters, pagin
   const handleRetry = useCallback(() => {
     refresh();
   }, []);
-
-  if (state?.error) {
-    return (
-      <div className={styles.errorPage}>
-        <h1>Erro ao carregar a lista</h1>
-        <button onClick={handleRetry}>Tentar novamente</button>
-      </div>
-    )
-  }
 
   return (
     <div className={styles.gameList}>
@@ -102,13 +102,32 @@ export const GameList: React.FC<GameListProps> = ({ items, state, filters, pagin
           className={styles.selectField}
           onChange={onGenreChange}
         />
+        {/** Ajustar futuramente pq editoras são com um tratamento diferente */}
+        {/* <Field
+          type='select'
+          id='developer'
+          name='developer'
+          placeholder='Ordernar por desenvolvedora'
+          value={filters.value.developer ?? ''}
+          options={developerOptions}
+          className={styles.selectField}
+          onChange={onDeveloperChange}
+        /> */}
       </div>
       <div className={styles.content}>
-        <div className={styles.list}>
-          {state?.loading
-            ? Array.from({ length: 12 }).map((_, index) => <Skeleton key={index} width="100%" height={260} borderRadius={12} />)
-            : items.map((item, index) => <GameCard key={index} item={item} />)}
-        </div>
+        {state?.error ? (
+          <div className={styles.errorWrppae}>
+            <Title>Houve um erro ao buscar jogos</Title>
+            <Title variant="h2">Por favor, tente novamente!</Title>
+            <Button>Tente novamente</Button>
+          </div>
+        ) : (
+          <div className={styles.list}>
+            {state?.loading
+              ? Array.from({ length: 12 }).map((_, index) => <Skeleton key={index} width="100%" height={260} borderRadius={12} />)
+              : items.map((item, index) => <GameCard key={index} item={item} />)}
+          </div>
+        )}
       </div>
       <div className={styles.wrapperButton}>
         <button className={styles.button} onClick={handleBack} disabled={isBackDisabled}><ArrowBigLeft size={16} color="#fff" /></button>
