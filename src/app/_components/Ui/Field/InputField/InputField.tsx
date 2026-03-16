@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import type { InputFieldProps } from './InputField.types';
 import styles from './InputField.module.scss';
 
@@ -14,10 +15,10 @@ export const InputField: React.FC<InputFieldProps> = ({
   value,
   defaultValue,
   placeholder,
+  ref,
   ...props
 }) => {
   const errorId = `${id}-error`;
-  const inputSize = size ?? Math.max(String(value ?? defaultValue ?? placeholder ?? '').length, 1);
 
   return (
     <div className={styles.field}>
@@ -25,21 +26,22 @@ export const InputField: React.FC<InputFieldProps> = ({
       <div className={styles.inputWrapper}>
         {iconLeft ? <span className={`${styles.icon} ${styles.iconLeft}`}>{iconLeft}</span> : null}
         <input
+          ref={ref}
           id={id}
           name={name}
           type={inputType}
-          size={inputSize}
+          size={size}
           value={value}
           defaultValue={defaultValue}
           placeholder={placeholder}
           aria-invalid={!!error}
           aria-describedby={error ? errorId : undefined}
-          className={[
+          className={clsx(
             styles.input,
-            iconLeft ? styles.withIconLeft : '',
-            iconRight ? styles.withIconRight : '',
-            className ?? '',
-          ].filter(Boolean).join(' ')}
+            iconLeft && styles.withIconLeft,
+            iconRight && styles.withIconRight,
+            className,
+          )}
           {...props}
         />
         {iconRight ? <span className={`${styles.icon} ${styles.iconRight}`}>{iconRight}</span> : null}
