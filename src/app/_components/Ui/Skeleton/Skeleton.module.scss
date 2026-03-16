@@ -1,0 +1,31 @@
+.skeleton {
+  width: var(--skeletonWidth, 100%);
+  height: var(--skeletonHeight, 1rem);
+  min-width: var(--skeletonMinWidth, auto);
+  min-height: var(--skeletonMinHeight, auto);
+  border-radius: var(--skeletonRadius, 0.75rem);
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.04) 0%,
+      rgba(255, 255, 255, 0.12) 50%,
+      rgba(255, 255, 255, 0.04) 100%
+    ),
+    var(--border);
+  background-size: 200% 100%;
+  animation: skeletonPulse 1.4s ease-in-out infinite;
+}
+
+.circle {
+  border-radius: 999px;
+}
+
+@keyframes skeletonPulse {
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
+}

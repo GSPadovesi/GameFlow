@@ -1,77 +1,80 @@
-export type GameStatus = 'wishlist' | 'playing' | 'completed' | 'dropped';
-
-export type GamePlatform = {
-  id: number;
-  name: string;
-  slug: string;
-};
-
-export type GameGenre = {
-  id: number;
-  name: string;
-  slug: string;
-};
-
-export type GameItem = {
-  id: number;
-  slug: string;
-  name: string;
-  released: string | null;
-  backgroundImage: string | null;
-  rating: number | null;
-  ratingTop: number | null;
-  platforms: GamePlatform[];
-  genres?: GameGenre[];
-};
-
-export type GameUserState = {
-  status: GameStatus | null;
-  favorite: boolean;
-};
-
-export type GameListItem = {
-  game: GameItem;
-  userState?: GameUserState | null;
-};
+import type { GameStatus, UserGameItem } from '@/app/_types/user-game.types';
 
 export type GameListState = {
-  loading?: boolean;
-  emptyMessage?: string;
-  errorMessage?: string | null;
+  loading: boolean;
+  error: boolean | null;
 };
 
 export type GameListActions = {
-  onGameClick?: (item: GameListItem) => void;
-  onStatusChange?: (item: GameListItem, status: GameStatus) => void;
-  onFavoriteToggle?: (item: GameListItem) => void;
+  onGameClick?: (item: UserGameItem) => void;
+  onStatusChange?: (item: UserGameItem, status: GameStatus) => void;
+  onFavoriteToggle?: (item: UserGameItem) => void;
 };
 
-export type GameListOrdering =
-  | 'name'
-  | '-name'
-  | 'released'
-  | '-released'
-  | 'rating'
-  | '-rating';
+export type GameListGenre =
+  | 'action'
+  | 'shooter'
+  | 'adventure'
+  | 'rpg'
+  | 'indie'
+  | 'strategy'
+  | 'casual'
+  | 'simulation'
+  | 'puzzle'
+  | 'arcade'
+  | 'platformer'
+  | 'racing'
+  | 'sports'
+  | 'fighting'
+  ;
+
+export type GameListPlataform =
+  | "playstation5"
+  | "playstation4"
+  | "playstation3"
+  | "xbox-series-x"
+  | "xbox-one"
+  | "xbox360"
+  | "nintendo-switch"
+  | "nintendo-3ds"
+  | "wii-u"
+  | "nes"
+  | "pc"
+  | "linux"
+  | "macos"
+  | "web"
+  | "android"
+  | "ps-vita"
+  ;
+
+  export type GameDeveloper =
+  | 'naughty-dog'
+  | 'cd-projekt-red'
+  | 'rockstar-games'
+  | 'ubisoft'
+  | 'electronic-arts'
+  | 'fromsoftware'
+  | 'capcom'
+  | 'square-enix'
+  | 'bethesda'
+  | 'blizzard-entertainment';
 
 export type GameListFilters = {
   search: string;
-  platform: string | null;
-  ordering: GameListOrdering | null;
+  platform: GameListPlataform | null;
+  genre: GameListGenre | null;
+  developer: GameDeveloper | null;
 };
 
 export type GameListFilterProps = {
   value: GameListFilters;
-  onChange?: (filters: GameListFilters) => void;
-  onReset?: () => void;
+  onChange: (filters: GameListFilters) => void;
 };
 
 export type GameListPagination = {
   currentPage: number;
-  totalItems?: number;
-  hasNextPage?: boolean;
-  hasPreviousPage?: boolean;
-  onPageChange?: (page: number) => void;
+  totalPages: number;
+  onPageChange: (page: number) => void;
 };
 
 export type GameListOptions = {
@@ -84,11 +87,11 @@ export type GameListOptions = {
 };
 
 export type GameListProps = {
-  items: GameListItem[];
+  items: UserGameItem[];
   className?: string;
   state?: GameListState;
   actions?: GameListActions;
-  filters?: GameListFilterProps;
-  pagination?: GameListPagination;
+  filters: GameListFilterProps;
+  pagination: GameListPagination;
   options?: GameListOptions;
 };

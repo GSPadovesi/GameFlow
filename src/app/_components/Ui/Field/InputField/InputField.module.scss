@@ -1,13 +1,17 @@
 .field {
+  width: fit-content;
   display: flex;
   flex-direction: column;
   gap: 6px;
+
+  @media(max-width: 1024px){
+    width: 100%;
+  }
 }
 
 .inputWrapper {
   position: relative;
-  width: fit-content;
-  max-width: 100%;
+  width: 100%;
 }
 
 .label {
@@ -19,8 +23,7 @@
 }
 
 .input {
-  width: auto;
-  max-width: 100%;
+  width: 100%;
   border: 1px solid rgba(255, 255, 255, 0.2);
   background-color: color-mix(in srgb, var(--bg) 80%, rgba(17, 7, 31, 0.8));
   border-radius: 10px;
@@ -43,11 +46,11 @@
 }
 
 .withIconLeft {
-  padding-left: 42px;
+  padding-left: 42px !important; 
 }
 
 .withIconRight {
-  padding-right: 42px;
+  padding-right: 42px !important;
 }
 
 .icon {
