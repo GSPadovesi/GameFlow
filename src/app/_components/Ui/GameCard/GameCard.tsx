@@ -37,7 +37,7 @@ export const GameCard: React.FC<GameCardProps> = ({ item, className, onClick }) 
           <Title style={{ width: 'auto', margin: '0' }} variant='h6' size='md'>{game.rating}</Title>
         </div>
         <div style={{ width: '100%', display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
-          {platforms.slice(0, 3).map((label, index) => (
+          {platforms?.slice(0, 3).map((label, index) => (
             <div key={index} className={styles.plataformCard} >
               {plataformsMap[label]?.icon}
               <Paragraph style={{ width: 'auto', margin: '0' }} fontSize='12px'>{plataformsMap[label]?.name}</Paragraph>

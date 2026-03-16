@@ -3,6 +3,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import type { GameListFilters } from '@/app/_components/Ui/GameList/GameList.types';
 import type { UserGameItem } from '@/app/_types/user-game.types';
+import { Search } from 'lucide-react';
 
 export type CatalogProviderValue = {
   items: UserGameItem[];
@@ -61,7 +62,7 @@ export function CatalogProvider({ children }: CatalogProviderProps) {
   const [filters, setFilters] = useState<GameListFilters>({
     search: '',
     platform: null,
-    ordering: null,
+    genre: null,
   });
 
   useEffect(() => {
@@ -75,12 +76,18 @@ export function CatalogProvider({ children }: CatalogProviderProps) {
       try {
         const params = new URLSearchParams({
           page: String(page),
+          ...(filters.search && { search: filters.search }),
+          ...(filters.platform && { platforms: filters.platform }),
+          ...(filters.genre) && { genre: filters.genre }
         });
 
-        if (filters.search) {
-          params.append('search', filters.search);
-        }
+        // if (filters.search) {
+        //   params.append('search', filters.search);
+        // }
 
+        if (filters.platform) {
+
+        }
         // const response = await fetch(`/api/games?page=${page}${filters.search && `&search=${encodeURIComponent(filters.search)}`}`, {
         const response = await fetch(`/api/games?${params.toString()}`, {
           method: 'GET',

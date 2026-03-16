@@ -11,19 +11,33 @@ export type GameListActions = {
   onFavoriteToggle?: (item: UserGameItem) => void;
 };
 
-export type GameListOrdering =
-  | 'name'
-  | '-name'
-  | 'released'
-  | '-released'
-  | 'rating'
-  | '-rating'
+export type GameListGenre =
+  | 'action'
+  ;
+
+export type GameListPlataform =
+  | "playstation5"
+  | "playstation4"
+  | "playstation3"
+  | "xbox-series-x"
+  | "xbox-one"
+  | "xbox360"
+  | "nintendo-switch"
+  | "nintendo-3ds"
+  | "wii-u"
+  | "nes"
+  | "pc"
+  | "linux"
+  | "macos"
+  | "web"
+  | "android"
+  | "ps-vita"
   ;
 
 export type GameListFilters = {
   search: string;
-  platform: string | null;
-  ordering: GameListOrdering | null;
+  platform: GameListPlataform | null;
+  genre: GameListGenre | null;
 };
 
 export type GameListFilterProps = {

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getPlataformId } from '../../../../utils/index'
 
 const RAWGKEY = process.env.API_KEY;
 
@@ -6,11 +7,17 @@ export async function getGames(req: NextRequest) {
   if (!RAWGKEY) return new NextResponse('API key not configured', { status: 500 });
 
   try {
-    const page = Math.max(Number(req.nextUrl.searchParams.get('page') ?? 1), 1);
-    const search = req.nextUrl.searchParams.get('search')
-    const params = new URLSearchParams({ key: RAWGKEY, page: String(page) });
+    const page = String(Math.max(Number(req.nextUrl.searchParams.get('page') ?? 1), 1));
+    const search = req.nextUrl.searchParams.get('search');
+    const platforms = req.nextUrl.searchParams.get('platforms');
+    
+    const params = new URLSearchParams({ 
+      key: RAWGKEY, 
+      page: String(page),
+      ...(search && { search }),
+      ...(platforms && { platforms:  String(getPlataformId[platforms])})
+    });
 
-    if (search) params.append('search', search);
 
     const response = await fetch(`https://api.rawg.io/api/games?${params.toString()}`);
 

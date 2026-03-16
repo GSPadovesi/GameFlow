@@ -1,18 +1,43 @@
-import { useCallback } from "react";
+import { useCallback, useEffect, useRef, useState, type ChangeEvent } from "react";
 import { GameCard } from "../GameCard";
-import { GameListProps } from "./GameList.types";
 import { Field } from "../Field";
 import { Skeleton } from "../Skeleton";
 import { ArrowBigLeft, ArrowBigRight, Search } from "lucide-react";
 import { getPaginationSpan } from "../../../../../utils";
-import styles from './GameList.module.scss'
-import clsx from "clsx";
 import { refresh } from "next/cache";
+import { platformOptions } from "./GameList.constants";
+import type { GameListProps, GameListPlataform } from "./GameList.types";
+import clsx from "clsx";
+import styles from './GameList.module.scss'
 
 export const GameList: React.FC<GameListProps> = ({ items, state, filters, pagination }) => {
+  const [search, setSearch] = useState<string>(filters.value.search);
   const isBackDisabled = !pagination?.onPageChange || pagination.currentPage <= 1;
   const isNextDisabled = pagination.currentPage >= pagination?.totalPages;
   const totalPages = getPaginationSpan(pagination.currentPage, pagination.totalPages);
+  const gameRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
+
+
+  const onSearchChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    clearTimeout(gameRef.current)
+    setSearch(e.target.value)
+
+    const time = setTimeout(() => {
+      filters.onChange({
+        ...filters.value,
+        search: e.target.value
+      });
+    }, 500)
+
+    gameRef.current = time;
+  }, [filters])
+
+  const onPlatformChange = useCallback((e: ChangeEvent<HTMLSelectElement>) => {
+    filters.onChange({
+      ...filters.value,
+      platform: e.target.value ? e.target.value as GameListPlataform : null,
+    });
+  }, [filters]);
 
   const handleBack = useCallback(() => {
     if (!pagination) return;
@@ -26,8 +51,7 @@ export const GameList: React.FC<GameListProps> = ({ items, state, filters, pagin
 
   const handleRetry = useCallback(() => {
     refresh();
-  }, [])
-
+  }, []);
 
   if (state?.error) {
     return (
@@ -40,25 +64,28 @@ export const GameList: React.FC<GameListProps> = ({ items, state, filters, pagin
 
   return (
     <div className={styles.gameList}>
-      <div style={{ width: '100%' }}>
+      <div className={styles.controls}>
         <Field
           type='input'
           id='search'
           name='search'
           placeholder='Search...'
-          value={filters?.value?.search}
-          onChange={e => filters?.onChange?.({
-            ...filters.value,
-            search: e.target.value,
-          })}
+          style={{ maxWidth: '220px' }}
+          value={search}
           className={styles.searchField}
           iconLeft={<Search size={16} strokeWidth={2} />}
-          style={{ minWidth: '200px' }}
+          onChange={onSearchChange}
         />
-        {/* <Field
-          type="select"
-          id="select-gen"
-        /> */}
+        <Field
+          type='select'
+          id='platform'
+          name='platform'
+          placeholder='Ordenar por plataforma'
+          value={filters.value.platform ?? ''}
+          options={platformOptions}
+          className={styles.orderField}
+          onChange={onPlatformChange}
+        />
       </div>
       <div className={styles.content}>
         <div className={styles.list}>

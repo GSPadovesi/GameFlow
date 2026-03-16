@@ -1,0 +1,18 @@
+export const getPlataformId: Record<string, number> = {
+  "playstation5": 187,
+  "playstation4": 18,
+  "playstation3": 16,
+  "xbox-series-x": 186,
+  "xbox-one": 1,
+  "xbox360": 14,
+  "nintendo-switch": 7,
+  "nintendo-3ds": 8,
+  "wii-u": 11,
+  "nes": 49,
+  "pc": 4,
+  "linux": 6,
+  "macos": 5,
+  "web": 171,
+  "android": 21,
+  "ps-vita": 19,
+};
