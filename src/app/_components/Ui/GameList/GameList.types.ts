@@ -13,6 +13,19 @@ export type GameListActions = {
 
 export type GameListGenre =
   | 'action'
+  | 'shooter'
+  | 'adventure'
+  | 'rpg'
+  | 'indie'
+  | 'strategy'
+  | 'casual'
+  | 'simulation'
+  | 'puzzle'
+  | 'arcade'
+  | 'platformer'
+  | 'racing'
+  | 'sports'
+  | 'fighting'
   ;
 
 export type GameListPlataform =

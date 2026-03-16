@@ -6,8 +6,14 @@ import { SidebarProps } from './Sidebar.types';
 
 import cx from 'clsx';
 import styles from './Sidebar.module.scss';
+import { usePathname, useRouter } from 'next/navigation';
 
 export const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
+  const pathname = usePathname();
+  const route = useRouter();
+  const isCatalogPage = pathname === '/catalogo';
+  console.log(isCatalogPage)
+
   return (
     <aside
       className={cx(styles.sidebar, isOpen ? styles.open : '')}
@@ -15,7 +21,12 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
       <div className={styles.sidebarHeader}>
         <Title variant="h2" size="xl" style={{ width: 'fit-content' }}>Gameflow</Title>
       </div>
-      <h1>Olá, mundo</h1>
+      <div className={styles.content}>
+        {isCatalogPage ?
+          <Button variant='secondary' style={{ alignSelf: 'center' }} onClick={() => route.push('/home')}>Voltar para biblioteca</Button>
+          : <h1>Em construção</h1>
+        }
+      </div>
     </aside>
   );
 }

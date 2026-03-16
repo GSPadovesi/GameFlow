@@ -1,4 +1,4 @@
-import { GameListPlataform } from "./GameList.types";
+import { GameListPlataform, GameListGenre } from "./GameList.types";
 
 export const platformOptions: { label: string; value: GameListPlataform }[] = [
   { label: 'PS5', value: 'playstation5' },
@@ -18,3 +18,20 @@ export const platformOptions: { label: string; value: GameListPlataform }[] = [
   { label: 'Android', value: 'android' },
   { label: 'PSVita', value: 'ps-vita' }
 ];
+
+export const genreOptions: { label: string, value: GameListGenre }[] = [
+  { label: 'Ação', value: 'action' },
+  { label: 'Indie', value: 'indie' },
+  { label: 'Aventura', value: 'adventure' },
+  { label: 'RPG', value: 'rpg' },
+  { label: 'Estratégia', value: 'strategy' },
+  { label: 'FPS', value: 'shooter' },
+  { label: 'Casual', value: 'casual' },
+  { label: 'Simulção', value: 'simulation' },
+  { label: 'Puzzles', value: 'puzzle' },
+  { label: 'Arcade', value: 'arcade' },
+  { label: 'Plataforma', value: 'platformer' },
+  { label: 'Corrida', value: 'racing' },
+  { label: 'Esportes', value: 'sports' },
+  { label: 'Luta', value: 'fighting' }
+]

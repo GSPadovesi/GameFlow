@@ -5,8 +5,8 @@ import { Skeleton } from "../Skeleton";
 import { ArrowBigLeft, ArrowBigRight, Search } from "lucide-react";
 import { getPaginationSpan } from "../../../../../utils";
 import { refresh } from "next/cache";
-import { platformOptions } from "./GameList.constants";
-import type { GameListProps, GameListPlataform } from "./GameList.types";
+import { platformOptions, genreOptions } from "./GameList.constants";
+import type { GameListProps, GameListPlataform, GameListGenre } from "./GameList.types";
 import clsx from "clsx";
 import styles from './GameList.module.scss'
 
@@ -39,6 +39,13 @@ export const GameList: React.FC<GameListProps> = ({ items, state, filters, pagin
     });
   }, [filters]);
 
+  const onGenreChange = useCallback((e: ChangeEvent<HTMLSelectElement>) => {
+    filters.onChange({
+      ...filters.value,
+      genre: e.target.value ? e.target.value as GameListGenre : null
+    })
+  }, [filters])
+
   const handleBack = useCallback(() => {
     if (!pagination) return;
     pagination?.onPageChange(pagination.currentPage - 1)
@@ -69,8 +76,7 @@ export const GameList: React.FC<GameListProps> = ({ items, state, filters, pagin
           type='input'
           id='search'
           name='search'
-          placeholder='Search...'
-          style={{ maxWidth: '220px' }}
+          placeholder='Procurar jogo'
           value={search}
           className={styles.searchField}
           iconLeft={<Search size={16} strokeWidth={2} />}
@@ -83,8 +89,18 @@ export const GameList: React.FC<GameListProps> = ({ items, state, filters, pagin
           placeholder='Ordenar por plataforma'
           value={filters.value.platform ?? ''}
           options={platformOptions}
-          className={styles.orderField}
+          className={styles.selectField}
           onChange={onPlatformChange}
+        />
+        <Field
+          type='select'
+          id='genre'
+          name='genre'
+          placeholder='Ordernar por gênero'
+          value={filters.value.genre ?? ''}
+          options={genreOptions}
+          className={styles.selectField}
+          onChange={onGenreChange}
         />
       </div>
       <div className={styles.content}>
@@ -101,9 +117,9 @@ export const GameList: React.FC<GameListProps> = ({ items, state, filters, pagin
             {pagination.currentPage} / {pagination.totalPages}
           </span>
           <div className={styles.swiperTrack}>
-            {totalPages.map((page) => (
+            {totalPages.map((page, index) => (
               <span
-                key={page}
+                key={index}
                 className={clsx(styles.swiper, pagination.currentPage === page && styles.swiperActive)}
               />
             ))}

@@ -134,16 +134,14 @@ export const SelectField: React.FC<SelectFieldProps> = ({
           aria-labelledby={label ? `${labelId} ${id}` : id}
           className={clsx(
             styles.select,
-            iconLeft && styles.withIconLef,
+            iconLeft && styles.withIconLeft,
             isOpen && styles.open,
             className && className
           )}
           onClick={handleToggle}
           onBlur={handleBlur}
         >
-          <span className={selectedOption ? styles.value : styles.placeholder}>
-            {selectedOption?.label ?? placeholder ?? 'Selecionar'}
-          </span>
+          <span className={selectedOption ? styles.value : styles.placeholder}>{selectedOption?.label ?? placeholder ?? 'Selecionar'}</span>
         </button>
         <span className={`${styles.icon} ${styles.iconRight}`}>
           {isOpen ? <ChevronUp size={16} strokeWidth={2} /> : <ChevronDown size={16} strokeWidth={2} />}
@@ -160,7 +158,7 @@ export const SelectField: React.FC<SelectFieldProps> = ({
                 aria-selected={currentValue === ''}
                 className={clsx(
                   styles.option,
-                  currentValue === '' ? styles.optionSelected : ''
+                  currentValue === '' ? styles.optionSelected : '',
                 )}
                 onMouseDown={(event) => event.preventDefault()}
                 onClick={() => handleSelect('')}
@@ -168,7 +166,7 @@ export const SelectField: React.FC<SelectFieldProps> = ({
                 {placeholder}
               </button>
             )}
-            {options.map((option) => (
+            {options.map((option, index) => (
               <button
                 key={option.value}
                 type='button'
@@ -177,7 +175,8 @@ export const SelectField: React.FC<SelectFieldProps> = ({
                 aria-selected={option.value === currentValue}
                 className={clsx(
                   styles.option,
-                  option.value === currentValue ? styles.optionSelected : ''
+                  option.value === currentValue ? styles.optionSelected : '',
+                  index % 2 === 0 && styles.optionSecondary
                 )}
                 onMouseDown={(event) => event.preventDefault()}
                 onClick={() => handleSelect(option.value)}
@@ -192,5 +191,4 @@ export const SelectField: React.FC<SelectFieldProps> = ({
     </div>
   );
 };
-
 

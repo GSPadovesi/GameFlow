@@ -10,12 +10,14 @@ export async function getGames(req: NextRequest) {
     const page = String(Math.max(Number(req.nextUrl.searchParams.get('page') ?? 1), 1));
     const search = req.nextUrl.searchParams.get('search');
     const platforms = req.nextUrl.searchParams.get('platforms');
+    const genres = req.nextUrl.searchParams.get('genres');
     
     const params = new URLSearchParams({ 
       key: RAWGKEY, 
       page: String(page),
       ...(search && { search }),
-      ...(platforms && { platforms:  String(getPlataformId[platforms])})
+      ...(platforms && { platforms }),
+      ...(genres && { genres }) 
     });
 
 

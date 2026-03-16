@@ -4,6 +4,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import type { GameListFilters } from '@/app/_components/Ui/GameList/GameList.types';
 import type { UserGameItem } from '@/app/_types/user-game.types';
 import { Search } from 'lucide-react';
+import { getPlataformId, getGenreId } from '../../../../utils';
 
 export type CatalogProviderValue = {
   items: UserGameItem[];
@@ -77,8 +78,8 @@ export function CatalogProvider({ children }: CatalogProviderProps) {
         const params = new URLSearchParams({
           page: String(page),
           ...(filters.search && { search: filters.search }),
-          ...(filters.platform && { platforms: filters.platform }),
-          ...(filters.genre) && { genre: filters.genre }
+          ...(filters.platform && { platforms: String(getPlataformId[filters.platform]) }),
+          ...(filters.genre) && { genres: String(getGenreId[filters.genre]) }
         });
 
         // if (filters.search) {
