@@ -1,12 +1,10 @@
 'use client'
 
+import { AddGamePage } from "@/app/_components/Pages/AddGamePage/AddGamePage";
 import { Suspense } from "react";
-import { HomePage } from "../_components/Pages";
-
-
 
 export default function Page() {
   return <Suspense fallback={<div>Loading...</div>}>
-    <HomePage />
+    <AddGamePage />
   </Suspense>
 }

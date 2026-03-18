@@ -11,8 +11,7 @@ import { usePathname, useRouter } from 'next/navigation';
 export const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
   const pathname = usePathname();
   const route = useRouter();
-  const isCatalogPage = pathname === '/catalogo';
-  console.log(isCatalogPage)
+  const isHomePage = pathname === 'home';
 
   return (
     <aside
@@ -22,7 +21,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
         <Title variant="h2" size="xl" style={{ width: 'fit-content' }}>Gameflow</Title>
       </div>
       <div className={styles.content}>
-        {isCatalogPage ?
+        {!isHomePage ?
           <Button variant='secondary' style={{ alignSelf: 'center' }} onClick={() => route.push('/home')}>Voltar para biblioteca</Button>
           : <h1>Em construção</h1>
         }

@@ -87,7 +87,7 @@ export function CatalogProvider({ children }: CatalogProviderProps) {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-          },
+          }
         });
 
         if (!response.ok) throw new Error(`Request failed with status ${response.status}`);

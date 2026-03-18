@@ -42,7 +42,7 @@ export const Title: React.FC<TitleProps> = ({
 
   return (
     <Tag
-      className={cx(styles.title, sizeClasses(variantToSize[variant]), styles[textAlign], className)}
+      className={cx(styles.title, sizeClasses(size ?? variantToSize[variant]), styles[textAlign], className)}
       style={{
         ...(style || {}),
         ...(fontFamily ? ({ ['--fontFamily' as any]: fontFamily } as React.CSSProperties) : {}),

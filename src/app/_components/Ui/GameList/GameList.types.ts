@@ -1,16 +1,5 @@
 import type { GameStatus, UserGameItem } from '@/app/_types/user-game.types';
 
-export type GameListState = {
-  loading: boolean;
-  error: boolean | null;
-};
-
-export type GameListActions = {
-  onGameClick?: (item: UserGameItem) => void;
-  onStatusChange?: (item: UserGameItem, status: GameStatus) => void;
-  onFavoriteToggle?: (item: UserGameItem) => void;
-};
-
 export type GameListGenre =
   | 'action'
   | 'shooter'
@@ -84,6 +73,17 @@ export type GameListOptions = {
   showFavoriteAction?: boolean;
   showStatusActions?: boolean;
   clickableCard?: boolean;
+};
+
+export type GameListState = {
+  loading: boolean;
+  error: boolean | null;
+};
+
+export type GameListActions = {
+  onGameClick?: (id: number) => void;
+  onStatusChange?: (item: UserGameItem, status: GameStatus) => void;
+  onFavoriteToggle?: (item: UserGameItem) => void;
 };
 
 export type GameListProps = {

@@ -22,7 +22,7 @@ export const GameCard: React.FC<GameCardProps> = ({ item, className, onClick }) 
 
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
-      onClick(item);
+      onClick(game.id);
     }
   };
 
@@ -45,7 +45,12 @@ export const GameCard: React.FC<GameCardProps> = ({ item, className, onClick }) 
           ))}
         </div>
         <div className={styles.buttonsWrapper}>
-          <button className={clsx(styles.button, styles.add)}><Plus size={16} color="#fff" /></button>
+          <button
+            className={clsx(styles.button, styles.add)}
+            onClick={() => onClick?.(game.id)}
+          >
+            <Plus size={16} color="#fff" />
+          </button>
         </div>
       </div>
     </div>

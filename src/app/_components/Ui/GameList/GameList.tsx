@@ -12,13 +12,12 @@ import styles from './GameList.module.scss'
 import { Title } from "../Title";
 import { Button } from "../Button";
 
-export const GameList: React.FC<GameListProps> = ({ items, state, filters, pagination }) => {
+export const GameList: React.FC<GameListProps> = ({ items, state, filters, pagination, actions }) => {
   const [search, setSearch] = useState<string>(filters.value.search);
   const isBackDisabled = !pagination?.onPageChange || pagination.currentPage <= 1;
   const isNextDisabled = pagination.currentPage >= pagination?.totalPages;
   const totalPages = getPaginationSpan(pagination.currentPage, pagination.totalPages);
   const gameRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
-
 
   const onSearchChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     clearTimeout(gameRef.current)
@@ -68,6 +67,85 @@ export const GameList: React.FC<GameListProps> = ({ items, state, filters, pagin
   const handleRetry = useCallback(() => {
     refresh();
   }, []);
+
+  const handleAddClick = useCallback((id: number) => {
+    if (!actions?.onGameClick) return;
+    actions.onGameClick(id);
+  }, [actions])
+
+  interface tarefasProps {
+    id: number,
+    titulo: string,
+    responsavel: string,
+    status: string,
+    prioridade: string
+  }
+
+  interface reduceProps {
+    responsaveis: Record<string, number>;
+    colunas: {
+      todo: any[];
+      doing: any[];
+      done: any[];
+    };
+  }
+
+  const tarefas: tarefasProps[] = [
+    { id: 1, titulo: 'Criar login', responsavel: 'Ana', status: 'done', prioridade: 'alta' },
+    { id: 2, titulo: 'Criar API', responsavel: 'Carlos', status: 'doing', prioridade: 'alta' },
+    { id: 3, titulo: 'Criar testes', responsavel: 'Ana', status: 'todo', prioridade: 'baixa' },
+    { id: 4, titulo: 'Review PR', responsavel: 'Carlos', status: 'done', prioridade: 'media' },
+    { id: 5, titulo: 'Deploy', responsavel: 'Bia', status: 'todo', prioridade: 'alta' },
+    { id: 6, titulo: 'Documentação', responsavel: 'Bia', status: 'doing', prioridade: 'baixa' },
+    { id: 7, titulo: 'Hotfix', responsavel: 'Ana', status: 'doing', prioridade: 'alta' },
+  ];
+
+  const orderByPriorit: any = {
+    "alta": 1,
+    "media": 2,
+    "baixa": 3
+  }
+
+  const { colunas, responsaveis } = tarefas.reduce<reduceProps>((acc, item) => {
+    if (!acc.responsaveis) acc.responsaveis = {};
+    acc.responsaveis[item.responsavel] = (acc.responsaveis[item?.responsavel] ?? 0) + 1
+    if (item.status === 'todo') {
+      acc.colunas[item.status].push({
+        titulo: item.titulo,
+        prioridade: item.prioridade
+      })
+    }
+
+    if (item.status === 'doing') {
+      acc.colunas[item.status].push({
+        titulo: item.titulo,
+        prioridade: item.prioridade
+      })
+    }
+
+    if (item.status === 'done') {
+      acc.colunas[item.status].push({
+        titulo: item.titulo,
+        prioridade: item.prioridade
+      })
+    }
+
+    return acc;
+  }, {
+    responsaveis: {},
+    colunas: {
+      todo: [],
+      doing: [],
+      done: []
+    }
+  })
+
+  const novaOrdemColunas = {
+    todo: colunas.todo.sort((a, b) => orderByPriorit[a.prioridade] - orderByPriorit[b.prioridade]).map(item => item.titulo),
+    doing: colunas.doing.sort((a, b) => orderByPriorit[a.prioridade] - orderByPriorit[b.prioridade]).map(item => item.titulo),
+    done: colunas.done.sort((a, b) => orderByPriorit[a.prioridade] - orderByPriorit[b.prioridade]).map(item => item.titulo)
+  }
+  console.log(items)
 
   return (
     <div className={styles.gameList}>
@@ -125,7 +203,13 @@ export const GameList: React.FC<GameListProps> = ({ items, state, filters, pagin
           <div className={styles.list}>
             {state?.loading
               ? Array.from({ length: 12 }).map((_, index) => <Skeleton key={index} width="100%" height={260} borderRadius={12} />)
-              : items.map((item, index) => <GameCard key={index} item={item} />)}
+              : items.map((item, index) => (
+                <GameCard
+                  key={index}
+                  item={item}
+                  onClick={handleAddClick}
+                />
+              ))}
           </div>
         )}
       </div>

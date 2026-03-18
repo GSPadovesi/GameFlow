@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getPlataformId } from '../../../../utils/index'
 
 const RAWGKEY = process.env.API_KEY;
 
