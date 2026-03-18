@@ -1,9 +1,8 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import type { GameListFilters } from '@/app/_components/Ui/GameList/GameList.types';
 import type { UserGameItem } from '@/app/_types/user-game.types';
-import { Search } from 'lucide-react';
 import { getPlataformId, getGenreId, getDeveloperId } from '../../../../utils';
 
 export type CatalogProviderValue = {
@@ -52,7 +51,7 @@ export type CatalogProviderProps = {
   children: React.ReactNode;
 };
 
-const CatalogContext = createContext<CatalogProviderValue | null>(null);
+export const CatalogContext = createContext<CatalogProviderValue | null>(null);
 
 export function CatalogProvider({ children }: CatalogProviderProps) {
   const [items, setItems] = useState<UserGameItem[]>([]);
@@ -139,9 +138,3 @@ export function CatalogProvider({ children }: CatalogProviderProps) {
   );
 }
 
-export function useCatalogProvider() {
-  const context = useContext(CatalogContext);
-  if (!context) throw new Error('useCatalogProvider must be used within CatalogProvider');
-
-  return context;
-}
