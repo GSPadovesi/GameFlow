@@ -1,6 +1,6 @@
 # GameFlow
 
-Aplicacao em `Next.js` para catalogo de jogos, com busca, paginacao e consumo da API da RAWG por uma rota interna.
+Aplicacao em `Next.js` para catalogo de jogos, com busca, paginacao, persistencia em PostgreSQL via Prisma + Neon e consumo da API da RAWG por rota interna.
 
 ## Stack
 
@@ -9,6 +9,8 @@ Aplicacao em `Next.js` para catalogo de jogos, com busca, paginacao e consumo da
 - `TypeScript`
 - `Sass`
 - `ESLint`
+- `Prisma`
+- `Neon PostgreSQL`
 
 ## Requisitos
 
@@ -26,16 +28,30 @@ npm install
 2. Crie o arquivo de ambiente local:
 
 ```bash
-cp .env.example .env.local
+cp .env.example .env
 ```
 
-3. Configure a chave da RAWG em `.env.local`:
+3. Configure as variaveis em `.env`:
 
 ```env
+NEXT_PUBLIC_APP_URL=http://localhost:3000
 API_KEY=sua_chave_da_rawg
+DATABASE_URL=postgresql://USER:SENHA@HOST/neondb?sslmode=require
 ```
 
-4. Inicie o projeto:
+4. Rode as migrations do banco:
+
+```bash
+npx prisma migrate dev
+```
+
+Se o `npx` bloquear no PowerShell:
+
+```bash
+cmd /c npx prisma migrate dev
+```
+
+5. Inicie o projeto:
 
 ```bash
 npm run dev
@@ -53,12 +69,60 @@ App disponivel em `http://localhost:3000`.
 - `npm run typecheck`: validacao de tipos TypeScript
 - `npm run check`: executa lint + typecheck
 
+## Banco de dados
+
+O projeto usa:
+
+- `Prisma` como ORM
+- `Neon` como provedor do PostgreSQL
+- `prisma.config.ts` para centralizar schema, migrations e datasource
+
+Arquivos principais:
+
+- [`prisma/schema.prisma`](/C:/Users/win/Repositorios/myGames/prisma/schema.prisma)
+- [`prisma.config.ts`](/C:/Users/win/Repositorios/myGames/prisma.config.ts)
+- [`src/lib/prisma.ts`](/C:/Users/win/Repositorios/myGames/src/lib/prisma.ts)
+
+Comandos uteis:
+
+- `npx prisma migrate dev`
+- `npx prisma migrate status`
+- `npx prisma generate`
+- `npx prisma studio`
+
+## Regras atuais do banco
+
+- o banco local do projeto esta modelado em Prisma e persistido no Neon
+- migrations devem ser versionadas em `prisma/migrations`
+- `src/generated/prisma` e gerado localmente e nao deve subir
+- o projeto agora suporta soft delete com `deletedAt`
+- para remocao logica, a aplicacao deve usar `update` preenchendo `deletedAt`
+- `delete` fisico deve ser evitado no codigo de negocio
+
+Exemplo de soft delete:
+
+```ts
+await prisma.userGame.update({
+  where: { id },
+  data: { deletedAt: new Date() }
+});
+```
+
+Exemplo de leitura apenas de registros ativos:
+
+```ts
+await prisma.userGame.findMany({
+  where: { deletedAt: null }
+});
+```
+
 ## Rotas atuais
 
 - `/`: redireciona para `/home`
 - `/home`: pagina inicial atual
 - `/catalogo`: tela de catalogo de jogos
 - `/api/games`: proxy interno para a RAWG com suporte a `page`, `search` e `platforms`
+- `/api/user`: leitura do usuario atual no banco local
 
 ## Fluxo atual do catalogo
 
@@ -72,6 +136,20 @@ O catalogo usa `CatalogProvider` para concentrar:
 
 Quando os filtros mudam, a pagina volta para `1`. Hoje o filtro implementado no fluxo e o `search`.
 No front da `GameList`, a barra de filtros ja expoe busca por texto e seletor de plataforma.
+
+## Fluxo atual do usuario
+
+O `UserProvider` carrega o usuario pela rota interna `/api/user`.
+
+Observacao temporaria:
+
+Hoje a chamada de usuario ainda usa um `id` fixo no fluxo de backend apenas para viabilizar a integracao inicial com o banco.
+No futuro, quando a autenticacao estiver implementada, o id do usuario sera obtido a partir do token JWT do usuario autenticado. O local de armazenamento do token ainda nao esta definido e sera decidido depois do estudo da estrategia de autenticacao.
+
+Ou seja:
+
+- agora: `id` fixo temporario para desenvolvimento
+- depois: `id` extraido do JWT do usuario autenticado
 
 ## Estrutura do projeto
 
@@ -127,6 +205,8 @@ O componente `Skeleton` e generico e pode simular qualquer bloco do layout por l
 - a busca por texto ja esta conectada ao provider
 - o filtro de plataforma ja faz parte da estrutura de filtros do catalogo
 - a paginacao ja considera `currentPage` e `totalPages`
+- o banco ja possui migrations iniciais e migration de soft delete
+- o projeto ja esta integrado ao Neon via Prisma adapter
 - ainda ha espaco para evoluir tratamento de erro, loading refinado e filtros adicionais
 
 ## Proximos passos sugeridos
@@ -135,4 +215,6 @@ O componente `Skeleton` e generico e pode simular qualquer bloco do layout por l
 - adicionar skeletons nas telas de loading
 - expandir filtros alem de `search`
 - melhorar o tratamento de erro e retry
+- substituir o `id` fixo do usuario por leitura real do JWT
+- aplicar soft delete nas operacoes de remocao do dominio
 - adicionar testes para provider e componentes principais

@@ -1,11 +1,11 @@
 'use client';
 
 import { GameList } from '../../Ui';
-import { useCatalogProvider } from '@/app/_providers/CatalogProvider/CatalogProvider';
+import { useCatalog } from '@/app/_hooks';
 import styles from './Catalog.module.scss';
 
 export function CatalogPage() {
-  const { items, loading, error, filters, setFilters, page, setPage, totalPages } = useCatalogProvider();
+  const { items, loading, error, filters, setFilters, page, setPage, totalPages } = useCatalog();
 
   return (
     <div className={styles.catalogPage}>

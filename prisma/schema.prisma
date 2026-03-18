@@ -1,0 +1,171 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id           String       @id @default(cuid())
+  email        String       @unique
+  password     String
+  userName     String
+  userFullName String?
+  coverURL     String?
+  deletedAt    DateTime?
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  accesses     UserAccess[]
+  userGames    UserGame[]
+
+  @@index([deletedAt])
+}
+
+model Game {
+  id              String          @id @default(cuid())
+  rawgId          Int             @unique
+  slug            String          @unique
+  name            String
+  releasedAt      DateTime?
+  backgroundImage String?
+  rating          Float?
+  ratingTop       Float?
+  deletedAt       DateTime?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  developers      GameDeveloper[]
+  genres          GameGenre[]
+  platforms       GamePlatform[]
+  userGames       UserGame[]
+
+  @@index([deletedAt])
+}
+
+model UserGame {
+  id             String      @id @default(cuid())
+  userId         String
+  gameId         String
+  status         GameStatus?
+  favorite       Boolean     @default(false)
+  personalRating Int?
+  notes          String?
+  startedAt      DateTime?
+  finishedAt     DateTime?
+  deletedAt      DateTime?
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+  game           Game        @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  user           User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, gameId])
+  @@index([userId])
+  @@index([gameId])
+  @@index([deletedAt])
+}
+
+model Platform {
+  id        String         @id @default(cuid())
+  rawgId    Int?           @unique
+  name      String
+  slug      String         @unique
+  deletedAt DateTime?
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+  games     GamePlatform[]
+
+  @@index([deletedAt])
+}
+
+model GamePlatform {
+  id         String   @id @default(cuid())
+  gameId     String
+  platformId String
+  deletedAt  DateTime?
+  game       Game     @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  platform   Platform @relation(fields: [platformId], references: [id], onDelete: Cascade)
+
+  @@unique([gameId, platformId])
+  @@index([platformId])
+  @@index([deletedAt])
+}
+
+model Genre {
+  id        String      @id @default(cuid())
+  rawgId    Int?        @unique
+  name      String
+  slug      String      @unique
+  deletedAt DateTime?
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  games     GameGenre[]
+
+  @@index([deletedAt])
+}
+
+model GameGenre {
+  id      String @id @default(cuid())
+  gameId  String
+  genreId String
+  deletedAt DateTime?
+  game    Game   @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  genre   Genre  @relation(fields: [genreId], references: [id], onDelete: Cascade)
+
+  @@unique([gameId, genreId])
+  @@index([genreId])
+  @@index([deletedAt])
+}
+
+model Developer {
+  id        String          @id @default(cuid())
+  rawgId    Int?            @unique
+  name      String
+  slug      String          @unique
+  deletedAt DateTime?
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+  games     GameDeveloper[]
+
+  @@index([deletedAt])
+}
+
+model GameDeveloper {
+  id          String    @id @default(cuid())
+  gameId      String
+  developerId String
+  deletedAt   DateTime?
+  developer   Developer @relation(fields: [developerId], references: [id], onDelete: Cascade)
+  game        Game      @relation(fields: [gameId], references: [id], onDelete: Cascade)
+
+  @@unique([gameId, developerId])
+  @@index([developerId])
+  @@index([deletedAt])
+}
+
+model UserAccess {
+  id        String     @id @default(cuid())
+  userId    String
+  platform  String
+  role      AccessRole @default(user)
+  deletedAt DateTime?
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, platform])
+  @@index([platform])
+  @@index([deletedAt])
+}
+
+enum GameStatus {
+  wishlist
+  playing
+  completed
+  dropped
+}
+
+enum AccessRole {
+  admin
+  user
+}
