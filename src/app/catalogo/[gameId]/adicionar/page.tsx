@@ -1,6 +1,6 @@
 'use client'
 
-import { AddGamePage } from "@/app/_components/Pages/AddGamePage/AddGamePage";
+import { AddGamePage } from "@/app/_components/Pages";
 import { Suspense } from "react";
 
 export default function Page() {

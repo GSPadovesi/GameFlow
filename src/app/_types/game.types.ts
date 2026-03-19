@@ -21,3 +21,27 @@ export type Game = {
   platforms: GamePlatform[];
   genres?: GameGenre[];
 };
+
+
+
+export type GameResponse = {
+  id: number;
+  slug: string;
+  name: string;
+  released: string | null;
+  background_image: string | null;
+  rating: number | null;
+  rating_top: number | null;
+  platforms: {
+    platform: {
+      id: number;
+      name: string;
+      slug: string;
+    };
+  }[];
+  genres?: {
+    id: number;
+    name: string;
+    slug: string;
+  }[];
+};

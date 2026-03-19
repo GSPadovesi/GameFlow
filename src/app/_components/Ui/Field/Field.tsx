@@ -1,5 +1,6 @@
 import type { FieldProps } from './Field.types';
 import { InputField } from './InputField';
+import { RadioField } from './RadioField';
 import { SelectField } from './SelectField';
 import { TextAreaField } from './TextAreaField';
 
@@ -12,6 +13,10 @@ export const Field: React.FC<FieldProps> = (props) => {
     case 'select': {
       const { type: _type, ...selectProps } = props;
       return <SelectField {...selectProps} />
+    }
+    case 'radio': {
+      const { type: _type, ...radioProps } = props;
+      return <RadioField {...radioProps} />
     }
     case 'input':
     default: {

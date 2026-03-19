@@ -28,8 +28,13 @@ export interface SelectFieldProps extends BaseFieldProps, Omit<React.SelectHTMLA
   iconLeft?: React.ReactNode;
 }
 
+export interface RadioFieldProps extends BaseFieldProps, Omit<React.InputHTMLAttributes<HTMLInputElement>, 'id' | 'name' | 'type'> {
+  options: SelectOption[];
+}
+
 export type FieldProps =
   | ({ type: 'input' } & InputFieldProps)
   | ({ type: 'textarea' } & TextAreaFieldProps)
   | ({ type: 'select' } & SelectFieldProps)
+  | ({ type: 'radio' } & RadioFieldProps)
  
