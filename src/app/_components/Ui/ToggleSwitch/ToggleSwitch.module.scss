@@ -1,0 +1,52 @@
+.toggleSwitch{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.label {
+  font-size: 14px;
+  line-height: 1.2;
+  font-weight: 300;
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+}
+
+.switch {
+  width: 48px;
+  height: 28px;
+  border-radius: 999px;
+  padding: 4px;
+  background-color: gray;
+  position: relative;
+  cursor: pointer;
+}
+
+.switchSpan {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #fff;
+  position: absolute;
+  top: 50%;
+  left: 4px;
+  transform: translateY(-50%);
+  transition: transform 0.2s ease;
+
+}
+
+.switchActive{
+  background-color: #1D7741;
+}
+
+.switchSpanActive{
+  transform: translate(20px, -50%);
+  transition: transform 0.2s ease;
+}
+
+.disabled {
+  background-color: gray;
+  position: unset;
+  z-index: 100;
+  cursor: not-allowed;
+}

@@ -6,3 +6,4 @@ export * from './Header';
 export * from './GameList';
 export * from './GameCard';
 export * from './Skeleton';
+export * from './ToggleSwitch';

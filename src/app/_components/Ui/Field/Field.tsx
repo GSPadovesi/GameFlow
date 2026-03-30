@@ -1,5 +1,7 @@
+import { DateField } from './DateField';
 import type { FieldProps } from './Field.types';
 import { InputField } from './InputField';
+import { NumberField } from './NumberField/NumberField';
 import { RadioField } from './RadioField';
 import { SelectField } from './SelectField';
 import { TextAreaField } from './TextAreaField';
@@ -17,6 +19,14 @@ export const Field: React.FC<FieldProps> = (props) => {
     case 'radio': {
       const { type: _type, ...radioProps } = props;
       return <RadioField {...radioProps} />
+    }
+    case 'number': {
+      const { type: _type, ...numberProps } = props;
+      return <NumberField {...numberProps} />
+    }
+    case 'date': {
+      const { type: _type, ...dateProps } = props;
+      return <DateField {...dateProps} />;
     }
     case 'input':
     default: {

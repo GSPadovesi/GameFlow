@@ -56,41 +56,36 @@ export const RadioField: React.FC<RadioFieldProps> = ({
         aria-describedby={error ? errorId : undefined}
         className={styles.buttonsWrapper}
       >
-        {options.map((option, index) => {
-          const optionId = `${id}-${option.value}`;
-          const isChecked = currentValue === option.value;
-
-          return (
-            <label
-              key={option.value}
-              htmlFor={optionId}
-              className={clsx(
-                styles.button,
-                isChecked && styles.buttonActive,
-                (disabled || option.disabled) && styles.buttonDisabled,
-                className
-              )}
-            >
-              <input
-                id={optionId}
-                className={styles.input}
-                type="radio"
-                name={name}
-                value={option.value}
-                checked={isChecked}
-                disabled={disabled || option.disabled}
-                required={required && index === 0}
-                autoFocus={autoFocus && index === 0}
-                tabIndex={tabIndex}
-                title={title}
-                onFocus={onFocus}
-                onBlur={onBlur}
-                onChange={() => handleChange(option.value)}
-              />
-              <span>{option.label}</span>
-            </label>
-          );
-        })}
+        {options.map((option, index) => (
+          <label
+            key={option.value}
+            htmlFor={`${id}-${option.value}`}
+            className={clsx(
+              styles.button,
+              currentValue === option.value && styles.buttonActive,
+              (disabled || option.disabled) && styles.buttonDisabled,
+              className
+            )}
+          >
+            <input
+              id={`${id}-${option.value}`}
+              className={styles.input}
+              type="radio"
+              name={name}
+              value={option.value}
+              checked={currentValue === option.value}
+              disabled={disabled || option.disabled}
+              required={required && index === 0}
+              autoFocus={autoFocus && index === 0}
+              tabIndex={tabIndex}
+              title={title}
+              onFocus={onFocus}
+              onBlur={onBlur}
+              onChange={() => handleChange(option.value)}
+            />
+            <span>{option.label}</span>
+          </label>
+        ))}
       </div>
       {error ? <div id={errorId} role="alert" className={styles.errorMessage}>{error}</div> : null}
     </div>

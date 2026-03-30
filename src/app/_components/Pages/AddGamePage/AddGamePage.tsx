@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
-import { Title, Paragraph, Button, Skeleton } from '../../Ui';
+import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
+import { Title, Paragraph, Button, Skeleton, ToggleSwitch } from '../../Ui';
 import { Game, GameResponse, GameStatus } from '@/app/_types';
 import { useParams, useRouter } from 'next/navigation';
 import { plataformsMap } from '../../Ui/GameCard/GameCard.constants';
@@ -15,8 +15,41 @@ export function AddGamePage() {
   const [isLoading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [status, setStatus] = useState<GameStatus>('wishlist');
+  const [favorite, setFavorite] = useState<boolean>(false);
+  const [assessment, setAssessment] = useState<number | ''>('');
+  const [date, setDate] = useState<string>('');
+  const [note, setNote] = useState<string>('');
   const { gameId } = useParams();
   const router = useRouter();
+
+  const onStatusChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    setStatus(e.target.value as GameStatus);
+  }, []);
+  const onAssessmentChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    setAssessment(value === '' ? '' : Number(value));
+  }, []);
+  const onDateChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    setDate(e.target.value);
+  }, []);
+  const onNoteChange = useCallback((e: ChangeEvent<HTMLTextAreaElement>) => {
+    setNote(e.target.value);
+  }, []);
+
+  const hasValue = useMemo(() => {
+    return status && assessment && date;
+  }, [status, assessment, date]);
+
+  const onAddGame = useCallback(async () => {
+    setLoading(true);
+    try {
+
+    } catch {
+
+    } finally {
+      setLoading(false)
+    }
+  }, [])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -62,8 +95,8 @@ export function AddGamePage() {
   return (
     <div className={styles.addGamePage}>
       <div className={styles.header}>
-        <Title style={{ width: 'auto', margin: '0' }} variant='h1' size='3xl'>Adicionar Ã  biblioteca</Title>
-        <Paragraph style={{ width: 'auto', margin: '0' }} color='#868cab'>Defina seu status e personalize esse jogo na sua coleÃ§Ã£o</Paragraph>
+        <Title style={{ width: 'auto', margin: '0' }} variant='h1' size='3xl'>Adicionar à biblioteca</Title>
+        <Paragraph style={{ width: 'auto', margin: '0' }} fontColor='#868cab'>Defina seu status e personalize esse jogo na sua coleção</Paragraph>
       </div>
       <div className={styles.content}>
         {isLoading ? (
@@ -146,19 +179,58 @@ export function AddGamePage() {
                     </div>
                   ))}
                 </div>
-                <Button variant='secondary' onClick={() => router.back()}>Voltar ao catalogo</Button>
+                <Button variant='secondary' onClick={() => router.back()} style={{ width: '100%' }}>Voltar ao catalogo</Button>
               </div>
             </div>
             <div className={styles.formContent}>
-              <Title variant='h2'>Status</Title>
+              <Title style={{ width: 'auto', margin: '0' }} variant='h2'>Status</Title>
+
               <Field
                 type='radio'
                 id='status'
                 name='status'
                 value={status}
                 options={statusOptions}
-                onChange={(event) => setStatus(event.target.value as GameStatus)}
+                onChange={onStatusChange}
+                disabled={!game}
               />
+              <ToggleSwitch
+                id='favorite'
+                label='Marcar como favorito'
+                checked={favorite}
+                disabled={!game}
+                onChange={setFavorite}
+              />
+              <span className={styles.span} />
+              <Title style={{ width: 'auto', margin: '0' }} variant='h2'>Sua avaliação</Title>
+              <Field
+                type='number'
+                id='Assessment'
+                name='assessment'
+                value={assessment}
+                onChange={onAssessmentChange}
+              />
+              <Title style={{ width: 'auto', margin: '0' }} variant='h2'>Coloque o ano em que foi jogado</Title>
+              <Field
+                type='date'
+                id='playedAt'
+                name='playedAt'
+                value={date}
+                onChange={onDateChange}
+              />
+              <Title style={{ width: 'auto', margin: '0' }} variant='h2'>Anotações pessoais</Title>
+              <Field
+                type='textarea'
+                id='notes'
+                name='notes'
+                value={note}
+                onChange={onNoteChange}
+                disabled={!game}
+              />
+              <div style={{ display: 'flex', gap: '12px' }}>
+                <Button variant='secondary' onClick={() => router.back()}>Cancelar</Button>
+                <Button disabled={!hasValue || isLoading} onClick={onAddGame}>Salvar jogo</Button>
+              </div>
             </div>
           </>
         )}

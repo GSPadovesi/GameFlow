@@ -11,6 +11,7 @@ import clsx from "clsx";
 import styles from './GameList.module.scss'
 import { Title } from "../Title";
 import { Button } from "../Button";
+import { User } from "@/generated/prisma/client";
 
 export const GameList: React.FC<GameListProps> = ({ items, state, filters, pagination, actions }) => {
   const [search, setSearch] = useState<string>(filters.value.search);
@@ -71,7 +72,75 @@ export const GameList: React.FC<GameListProps> = ({ items, state, filters, pagin
   const handleAddClick = useCallback((id: number) => {
     if (!actions?.onGameClick) return;
     actions.onGameClick(id);
-  }, [actions])
+  }, [actions]);
+
+  type ListenersProps = Record<string, {
+    callbacks: ((props: any) => void)[]
+  }>
+
+  type UserProps = Record<string, {
+    user: string,
+    try: number,
+    remaining: number,
+    start: number,
+    wait?: number
+  }>
+
+  function createRateLimiter(request: number, limitRequestTime: number) {
+    const listeners: ListenersProps = {};
+    const users: UserProps = {}
+
+    return {
+      on(key: string, callback: (user: UserProps) => void) {
+        if (!listeners[key]) listeners[key] = {
+          callbacks: []
+        }
+
+        listeners[key].callbacks.push(callback);
+
+        return 'Callback criado'
+      },
+
+      request(user: string) {
+        if (!users[user]) users[user] = {
+          user,
+          try: 0,
+          remaining: request,
+          start: Date.now()
+        }
+
+        const oldTime = (Date.now() - users[user].start) / 1000;
+
+        if (oldTime >= limitRequestTime) {
+          users[user].try = 0;
+          users[user].start = Date.now();
+          console.log(`Resetando atributos do usuario: ${users[user].user}`)
+
+        }
+
+        if (users[user].try >= request) {
+          console.log('Bloqueado')
+          users[user].wait = limitRequestTime - oldTime
+          listeners['bloqueado'].callbacks.forEach(callback => callback(users[user]))
+        } else {
+          users[user].try += 1;
+          users[user].remaining -= 1
+          listeners['permitido']?.callbacks.forEach(callback => callback(users[user]))
+        }
+      }
+    }
+  }
+
+  const limiter = createRateLimiter(3, 10);
+
+  limiter.on('permitido', (info) => console.log(`${info.user} — ${info.remaining} restantes`))
+  limiter.on('bloqueado', (info) => console.log(`${info.user} bloqueado — tente em ${info.wait}s`))
+
+  limiter.request('Ana');
+  limiter.request('Ana');
+  limiter.request('Ana');
+  limiter.request('Ana');
+
 
   return (
     <div className={styles.gameList}>

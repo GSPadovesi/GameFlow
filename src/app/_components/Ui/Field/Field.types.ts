@@ -32,9 +32,15 @@ export interface RadioFieldProps extends BaseFieldProps, Omit<React.InputHTMLAtt
   options: SelectOption[];
 }
 
+export interface NumberFieldProps extends BaseFieldProps, Omit<React.InputHTMLAttributes<HTMLInputElement>, 'id' | 'name' | 'type'> {}
+
+export interface DateFieldProps extends BaseFieldProps, Omit<React.InputHTMLAttributes<HTMLInputElement>, 'id' | 'name' | 'type'> {}
+
 export type FieldProps =
   | ({ type: 'input' } & InputFieldProps)
   | ({ type: 'textarea' } & TextAreaFieldProps)
   | ({ type: 'select' } & SelectFieldProps)
   | ({ type: 'radio' } & RadioFieldProps)
+  | ({ type: 'number' } & NumberFieldProps)
+  | ({ type: 'date' } & DateFieldProps)
  
